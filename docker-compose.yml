@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: db
+    image: postgres17_with_pg_rest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - VERSION=3.0.1
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=superuser
+      - POSTGRES_PASSWORD=superuserpass
+      - POSTGRES_DB=app
+    volumes:
+      - "./db:/docker-entrypoint-initdb.d"
+    command: >
+      postgres
+      -c log_statement=all
+      -c log_min_messages=debug1
+      -c log_min_duration_statement=0
